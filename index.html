@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>iPad fix</title>
+  </head>
+  <body>
+    <p id="text">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget
+      nulla vehicula, commodo arcu vel, viverra eros. Quisque sollicitudin
+      tellus quis laoreet facilisis. Quisque sed maximus urna. Mauris commodo
+      purus sem, interdum rhoncus purus condimentum et. Mauris nec lectus vel
+      lectus sagittis facilisis nec et sapien. Nunc eu felis vitae ex hendrerit
+      sodales sed a tortor. Vestibulum interdum, metus quis scelerisque semper,
+      est ex iaculis nulla, efficitur bibendum nisi nisl eu felis. In sit amet
+      ultrices libero. Quisque viverra velit nec lacus rhoncus, at auctor est
+      ornare. Mauris faucibus nisi odio, vel blandit tortor sagittis quis. Morbi
+      dolor leo, aliquam sit amet lobortis quis, lobortis at arcu.
+    </p>
+
+    <script>
+      function absorbEvent_(event) {
+        var e = event || window.event;
+        e.preventDefault && e.preventDefault();
+        e.stopPropagation && e.stopPropagation();
+        e.cancelBubble = true;
+        e.returnValue = false;
+        return false;
+      }
+
+      function preventLongPressMenu(node) {
+        node.ontouchstart = absorbEvent_;
+        node.ontouchmove = absorbEvent_;
+        node.ontouchend = absorbEvent_;
+        node.ontouchcancel = absorbEvent_;
+      }
+
+      function init() {
+        preventLongPressMenu(document.getElementById('text'));
+      }
+
+      init();
+    </script>
+  </body>
+</html>
