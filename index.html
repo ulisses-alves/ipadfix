@@ -2,9 +2,15 @@
 <html>
   <head>
     <title>iPad fix</title>
+    <style media="screen">
+      pre {
+        -webkit-touch-callout: none !important;
+      }
+    </style>
   </head>
   <body>
-    <p id="text">
+    <h3>Text:</h3>
+    <pre>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget
       nulla vehicula, commodo arcu vel, viverra eros. Quisque sollicitudin
       tellus quis laoreet facilisis. Quisque sed maximus urna. Mauris commodo
@@ -15,30 +21,32 @@
       ultrices libero. Quisque viverra velit nec lacus rhoncus, at auctor est
       ornare. Mauris faucibus nisi odio, vel blandit tortor sagittis quis. Morbi
       dolor leo, aliquam sit amet lobortis quis, lobortis at arcu.
-    </p>
+    </pre>
+
+    <div>
+      <button id="copy">Copy Selected</button>
+    </div>
+
+    <h3>Result:</h3>
+    <p id="result"></p>
 
     <script>
-      function absorbEvent_(event) {
-        var e = event || window.event;
-        e.preventDefault && e.preventDefault();
-        e.stopPropagation && e.stopPropagation();
-        e.cancelBubble = true;
-        e.returnValue = false;
-        return false;
-      }
+      !function() {
+        var result = document.getElementById('result');
+        var text;
 
-      function preventLongPressMenu(node) {
-        node.ontouchstart = absorbEvent_;
-        node.ontouchmove = absorbEvent_;
-        node.ontouchend = absorbEvent_;
-        node.ontouchcancel = absorbEvent_;
-      }
+        setInterval(function() {
+          var selection = window.getSelection();
 
-      function init() {
-        preventLongPressMenu(document.getElementById('text'));
-      }
+          text = selection.rangeCount > 0
+            ? window.getSelection().getRangeAt(0)
+            : '';
+        }, 100);
 
-      init();
+        document.getElementById('copy').addEventListener('click', function() {
+          result.innerText = text;
+        });
+      }();
     </script>
   </body>
 </html>
